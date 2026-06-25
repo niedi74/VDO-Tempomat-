@@ -1,2 +1,3 @@
 # VDO-Tempomat-
-leagcy uni connected to CAN
+leagcy unit connected to CAN
+controll over Touch dispaly 
