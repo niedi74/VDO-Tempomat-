@@ -72,6 +72,11 @@ Das Steuergerät hat zwei Steckerblöcke **S** und **T** (deckt sich mit dem
 Aufkleber auf dem Gerät). Klemmen S1–S9 bzw. T3–T9, teils n.c. (not connected).
 Die Adern von G/V/B/P/M laufen auf diese Klemmen.
 
+Fotos des realen Geräts + orangem Stecker mit Klemmenbeschriftung:
+- ![S/T-Aufkleber](images/steuergeraet/label-s-t-pinbelegung.jpg)
+- ![Stecker-Klemmen 1](images/steuergeraet/stecker-klemmen-1.jpg)
+- ![Stecker-Klemmen 2](images/steuergeraet/stecker-klemmen-2.jpg)
+
 ## Bremssignal (kritisch)
 
 ```
