@@ -76,6 +76,38 @@ Kl.15 (12V) ──[Bremslichtschalter am Bremspedal]──┬── Bremslichter
   Die Bremslichter **müssen Glühlampen** sein, keine LED. Die Erkennung braucht
   den Stromfluss/Last über den Glühfaden; mit LED funktioniert das Bremssignal nicht.
 
+### Fahrzeugseite: T2b Bremslicht-System (ab 08/1975)
+
+Fahrzeug = VW T2b. Doppeltes Bremslicht-System mit **2× 3-poligem
+Bremslichtschalter** am Bremskraftverstärker und einer Kontrollleuchte
+(Überwachung).
+
+Kontrollleuchte (4-polig):
+| Anschluss | Farbe | Funktion |
+|---|---|---|
+| 15 | schwarz | +12 V über Zündung |
+| K | rot | Signal von beiden Bremslichtschaltern (Überwachung) |
+| 61 | blau | D+ Lichtmaschine → Lampentest beim Einschalten |
+| 31 | braun | Masse |
+
+Je Bremslichtschalter (3-polig):
+| Klemme | Funktion |
+|---|---|
+| 82a | +12 V von Sicherung (Dauerplus, Eingang) |
+| **81** | **Ausgang zu den Bremsleuchten** (nur beim Bremsen +12 V) |
+| 81a | rote Leitung zur Kontrollleuchte K (Überwachung) |
+
+**Anschluss des Tempomat-Bremssignals:**
+- **V1 (weiß) → Klemme 81** (gemeinsamer Bremslicht-Strang beider Schalter).
+  Beim Bremsen +12 V mit Glühlampen-Last dahinter.
+- Abgriff dort, wo **beide** 81-Ausgänge zusammenlaufen → Redundanz bleibt
+  erhalten (fällt ein Schalter aus, liefert der andere weiter +12 V).
+- **Nicht** 82a verwenden (Dauerplus). Nicht mit 81a (Überwachung) verwechseln.
+- ESP-Bremseingang ebenfalls an 81 (= V1), Optokoppler, +12 V = gebremst.
+  Optional 81a/K mitlesen → Diagnose eines defekten Bremsschalters.
+- 61 (D+) und 15/31 sind nur für die Lampenüberwachung, **für den Tempomat
+  nicht nötig**.
+
 ## Geschwindigkeitssignal (kritisch)
 
 🔴 **Plan-Hinweis: „nötige mindest Frequenz Tachosignal: 65 Hz (Imp./sec)
