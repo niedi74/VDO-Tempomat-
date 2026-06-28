@@ -13,10 +13,13 @@ Quelle: ![Schaltplan gesamt](images/schaltplan-gesamt.jpg)
 | **B** | Bedienteil (Schalter) |
 | **P** | Pedal (Kuppelpedal) |
 | **M** | Motorpumpe (elektrisches Stellglied) |
-| **U** | Unterdruckdose – *im Plan ausgegraut → wird hier nicht verwendet* |
+| **U** | Unterdruckdose – *im Plan ausgegraut, weil rein pneumatisch (kein E-Anschluss)* |
 
-> **Wichtig:** Diese Installation nutzt die **Motorpumpe (M, elektrisch)** als
-> Stellglied, **nicht** die Unterdruckdose. Das passt zum Stellglied-Foto.
+> **Wichtig (korrigiert):** Es werden **sowohl Motorpumpe (M) als auch
+> Unterdruckdose (U)** benutzt. Die **Motorpumpe** (elektrisch, 3 Adern) erzeugt
+> das Vakuum, die **Unterdruckdose** (rein pneumatisch, deshalb im E-Plan
+> ausgegraut) ist der eigentliche Aktuator am Gasgestänge. Details + Test-Tabelle
+> der Ventile siehe [`handbuch.md`](handbuch.md).
 
 ## Stecker / Pinbelegung (Drahtfarben)
 
@@ -38,8 +41,15 @@ Quelle: ![Schaltplan gesamt](images/schaltplan-gesamt.jpg)
 |-----|-------|
 | B1…B6 | alle SW (schwarz) |
 
-→ 6 Adern zum Steuergerät. **Funktionszuordnung B1–B6 (Set/Resume/+/−/…) ist
-noch zu bestätigen** (siehe offene Punkte).
+→ 6 Adern zum Steuergerät. **Bedienteil-Funktionen** (aus dem Handbuch, Seite 3):
+**A)** Kippschalter ein/aus · **B)** LED · **C)** RESUME-Taster · **D)** Taster
+ACC/DEC (hoch = beschleunigen, runter = verzögern). Die exakte Zuordnung
+**welche der 6 Adern welche Funktion** ist, muss noch durch Tracen im
+Schaltplan + Messen bestätigt werden (siehe offene Punkte).
+
+**Verdrahtungs-Hinweis aus dem Handbuch (Seite 5):**
+„blau an S8 / blau an S3 / rot an S1 / die schwarze Leitung mit der weissen
+Markierung kommt an T9". (Bezieht sich auf Versorgung/Bedienteil – beim Tracen berücksichtigen.)
 
 ### P – Pedal / Kuppelpedal (1,5 m)
 | Pin | Farbe | Funktion |
