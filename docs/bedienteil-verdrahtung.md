@@ -59,3 +59,12 @@ Der ESP paralleliert die Taster, indem er die jeweilige Signalader gegen Ader 2
 Parallel-Betrieb **nicht** benötigt – der ESP klemmt direkt an die 6
 Bedienteil-Adern und ahmt die Taster nach. Brems-/Geschwindigkeitssignal liest
 der ESP wie in [`architektur.md`](architektur.md) beschrieben zusätzlich mit.
+
+## Bedienteil 6-Adern – Anschluss/Durchschleifung (Bild)
+
+![Bedienteil 6-Adern](images/verkabelung-bedienteil-6adern.png)
+
+- Alle 6 Adern laufen **1:1** vom Bedienteil durch die Box zum VDO.
+- **Relais:** COM = Ader 4/5/6 (RESUME/ACC/DEC), NO = Ader 2 (Masse). Schließen = "gedrückt".
+- **LED (Ader 3)** über Optokoppler → GPIO16. Ader 1 (Ein/Aus) läuft nur durch.
+- Generiert mit `verkabelung-bedienteil-6adern-diagram.py`.
