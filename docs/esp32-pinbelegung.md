@@ -1,65 +1,56 @@
-# ESP32-S3 (44P) – Pinbelegung der Inline-Box
+# ESP32-S3 (44P) – Pinbelegung der Inline-Box (final)
 
 Board: **ESP32-S3 44P** auf Schraubklemmen-Terminal-Adapter (lötfrei).
-Konzept: Original-Leitungen rein → ESP-Box (Taps + Relais/Opto) → wieder raus
-zum Original-Steuergerät. CAN-Transceiver für Touch-Display.
+Konzept: Original-Leitungen rein → ESP-Box (Relais/Opto + WiFi) → wieder raus
+zum VDO-Steuergerät. Original-Funktion bleibt parallel erhalten (rückrüstbar).
 
 ```
 Kabelbaum/Bedienteil ─► [ Terminal-Adapter + ESP32-S3 ] ─► VDO-Steuergerät
-                          • Relais parallel zu Tastern (drücken)
-                          • Optokoppler lesen (LED/Bremse/Speed)
-                          • CAN-Transceiver ◄─► Touch-Display
+                          • 3 Relais parallel zu Tastern (Set/Resume/+/−)
+                          • Optokoppler lesen (Bremse / LED / optional Reed)
+                          • WiFi (AP 192.168.6.1 + STA am Spartan-Hub)
+                          • CAN-Transceiver (später)
 ```
 
-## Sichere GPIO-Wahl (ESP32-S3)
-**Vermieden:** GPIO0/3/45/46 (Strapping/Boot), 19/20 (USB), 43/44 (UART0-Konsole),
-26–37 (Flash/Octal-PSRAM). Benutzte Pins sind alle frei nutzbar.
+## Master-Pinbelegung
 
-## Ausgänge – Taster „drücken" (→ Relais-/MOSFET-Modul)
-| Funktion | GPIO (Klemme) | wirkt auf |
-|----------|---------------|-----------|
-| **RESUME** | **GPIO5** | Relais 1 → COM/NO parallel zum RESUME-Taster |
-| **ACC** (schneller) | **GPIO6** | Relais 2 → parallel zum ACC-Kontakt |
-| **DEC** (langsamer) | **GPIO7** | Relais 3 → parallel zum DEC-Kontakt |
-
-> Ein/Aus-Kippschalter bleibt **manuell** (kein ESP-Kanal).
-
-## Eingänge – mitlesen (über Optokoppler-Modul)
-| Signal | GPIO (Klemme) | Hinweis |
-|--------|---------------|---------|
-| **Geschwindigkeit (Reed G)** | **GPIO4** | Frequenz, Interrupt/Pulszählung; min. 65 Hz |
-| **Bremssignal (V1 / Kl.81)** | **GPIO15** | +12 V = gebremst → Opto → 3,3 V; höchste Priorität |
-| **LED „bereit"** | **GPIO16** | Status vom Bedienteil mitlesen |
-
-## CAN (TWAI) → Touch-Display
-| Signal | GPIO (Klemme) | an Transceiver (z. B. SN65HVD230 / TJA1051) |
-|--------|---------------|---------------------------------------------|
-| **CAN TX** | **GPIO17** | TXD |
-| **CAN RX** | **GPIO18** | RXD |
-
-## Optional (falls gewünscht)
-| Zweck | GPIO |
-|-------|------|
-| physische Taster mitlesen (RESUME/ACC/DEC-Stellung) | GPIO8 / GPIO9 / GPIO10 |
-| Touch-Display direkt per I²C statt CAN | SDA=GPIO11, SCL=GPIO12 |
+| GPIO | Klemme | Richtung | Funktion | Angeschlossen an | Status |
+|------|--------|----------|----------|------------------|--------|
+| **5**  | 5  | OUT | **RESUME** (Reset) | Relais-Kanal 1 → COM/NO parallel zum RESUME-Taster | fest |
+| **6**  | 6  | OUT | **PLUS / ACC** (schneller; Set = kurzer Tipp) | Relais-Kanal 2 → parallel zum ACC-Kontakt | fest |
+| **7**  | 7  | OUT | **MINUS / DEC** (langsamer) | Relais-Kanal 3 → parallel zum DEC-Kontakt | fest |
+| **15** | 15 | IN  | **Bremssignal** (V1 / Kl.81, +12 V = gebremst) | Optokoppler → 3,3 V; höchste Priorität | fest |
+| **16** | 16 | IN  | **LED „bereit"** mitlesen | Optokoppler vom Bedienteil-LED-Signal | fest |
+| **4**  | 4  | IN  | **Geschwindigkeit (Reed)** – lokaler Fallback | Optokoppler + Pulszählung (Interrupt); primär kommt Speed per WiFi vom Hub | optional |
+| **17** | 17 | OUT | **CAN TX** | SN65HVD230 TXD | später |
+| **18** | 18 | IN  | **CAN RX** | SN65HVD230 RXD | später |
+| **8**  | 8  | IN  | Taster RESUME mitlesen | parallel zum phys. Taster (für Display-Status) | Reserve |
+| **9**  | 9  | IN  | Taster ACC mitlesen | parallel zum phys. Taster | Reserve |
+| **10** | 10 | IN  | Taster DEC mitlesen | parallel zum phys. Taster | Reserve |
+| **48** | 48 | OUT | Status-LED (onboard RGB, falls vorhanden) | — | optional |
 
 ## Stromversorgung
-- **12 V vom EIN/AUS-geschalteten Strang** (hinter dem physischen Kippschalter) →
-  12 V→5 V Step-down → **5V-Klemme** des Adapters.
-  → Dadurch ist der ESP **nur bei „Tempomat an" unter Strom** (Schalter aus = ESP aus).
-  Kein Software-On/Off nötig.
-- **Masse (V2)** → **GND-Klemme** (gemeinsame Masse für ESP + Module + Steuergerät).
-- 3,3 V erzeugt das ESP-Board selbst (für Optokoppler-Logikseite nutzbar).
-- Hinweis: kein Dauerplus → ESP bootet bei jedem Einschalten neu (Config persistent
-  speichern, z. B. NVS/Flash).
+| Klemme | Anschluss |
+|--------|-----------|
+| **5V** | von 12 V→5 V Step-down, **gespeist vom EIN/AUS-geschalteten 12-V-Strang** (hinter dem physischen Kippschalter) |
+| **GND** | gemeinsame Masse (ESP + Relais/Opto + Step-down + VDO-Steuergerät) |
+| 3V3 | erzeugt das Board selbst (für Optokoppler-Logikseite nutzbar) |
 
-## Wichtige Regeln (aus dem Projekt)
+- **On/Off ist implizit:** Schalter aus → ESP stromlos; Schalter an → ESP bootet (~1–2 s).
+  Kein Software-On/Off. **Config persistent in NVS/Flash** (kein Dauerplus).
+
+## Sichere-GPIO-Hinweise (ESP32-S3)
+- **Vermieden:** GPIO0/3/45/46 (Strapping/Boot), 19/20 (USB), 43/44 (UART0-Konsole),
+  26–37 (Flash/Octal-PSRAM). Alle oben genutzten Pins sind frei verwendbar.
+- TWAI/CAN ist auf dem S3 frei zuweisbar → GPIO17/18 (kein GPIO25/26 wie beim klass. ESP32).
+
+## Wichtige Regeln
 - **Bremse bleibt hardwareverdrahtet** (VDO-Reset unabhängig vom ESP); ESP liest nur mit.
-- ESP **niemals** ACC/RESUME senden, solange Bremssignal aktiv/gerade war.
-- Relais-Lösung = galvanisch getrennt; bei MOSFET-Variante: gemeinsame Masse + TVS.
-- Original-Funktion bleibt erhalten (Box nur parallel) → jederzeit rückrüstbar.
+- ESP **niemals** Set/Resume/Plus senden, solange Bremssignal aktiv/gerade war (Sperrzeit).
+- **Relais-Variante** = galvanisch getrennt (empfohlen). Bei MOSFET-Variante: gemeinsame Masse + TVS pro Signalleitung.
+- Original-Bedienteil bleibt voll funktionsfähig (ESP nur parallel).
 
-## Noch festzulegen
-- [ ] An welchen **Bedienteil-Adern** liegen RESUME/ACC/DEC genau (per Multimeter, vgl. `bedienteil-verdrahtung.md`).
-- [ ] Display: über CAN (eigener Bus) oder direkt I²C/SPI?
-- [ ] Modulwahl final: Relais-Modul (empfohlen) vs. MOSFET-Modul.
+## Bezug zu anderen Docs
+- Adern→Klemmen am VDO-Gerät: `klemmenliste.md`
+- Bedienteil-Adern (Set/Resume/+/−): `bedienteil-verdrahtung.md`
+- Netzwerk/CAN/GUI: `software-konzept.md`
