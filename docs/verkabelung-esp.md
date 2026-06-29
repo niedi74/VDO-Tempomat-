@@ -75,8 +75,6 @@ SN65HVD230 VCC=3V3, GND gemeinsam ;  CANH/CANL ──► Fahrzeug-CAN (500 kbit/
 - **Eine gemeinsame Masse** für ESP + alle Module + Step-down + VDO – sonst schaltet nichts.
 - Relais-Variante = galvanisch getrennt (empfohlen). MOSFET-Variante: zusätzlich TVS je Signal.
 - Alles parallel → **jederzeit rückrüstbar** (ESP-Box abziehen = Originalzustand).
-```
-```
 
 ## Schaltplan-Bild
 
