@@ -1,16 +1,19 @@
 # Bedienteil – Verdrahtung (Eigenbau) & ESP-Anbindung
 
-> ⚠️ **REVISION / ACHTUNG (in Klärung):** Aus dem klaren Gesamtplan
-> (`images/schaltplan-komplett-klar.jpg`) ergibt sich: Der **B-Stecker trägt
-> nicht nur Bedienteil-Signale**. Verifiziert per Aderverfolgung:
-> - **B2 = rote Ader = G1 (Reed/Geschwindigkeit)**
-> - **B3 = blaue Ader = G2 (zweite Reed-Ader)**
-> - B1/B4/B5/B6 (schwarz) → T6/T8/T4 … (eigentliche Bedienteil-Signale)
+> ⚠️ **REVISION / IN KLÄRUNG:** Der Plan arbeitet mit **Versorgungs-Schienen
+> mit Verteiler-Knoten**, nicht mit reinen 1-Ader-zu-1-Klemme-Verbindungen:
+> - 🔴 **Rot = +12 V (Kl. 15)** – mit **Knoten/Verteilpunkt**, zweigt auf
+>   mehrere Klemmen ab (u. a. B1/Schalter, kommt an B2 raus, P2 …).
+> - 🔵 **Blau = Masse** – mit **mehreren Knoten/Verteilern** auf viele Klemmen.
+> - **B3** geht in einen Schalter.
+> - **Automatik:** **weiß (w) an T9 gebrückt** → durchverbunden auf Steuergerät
+>   **Klemme 9** (Plan: „bei autom. Getriebe w + m verbinden").
 >
-> Damit ist die **untenstehende Tabelle (pin2=Masse usw.) überholt** und muss
-> neu erstellt werden. Vermutlich ist die Nummerierung der Eigenbau-Box ≠ der
-> B-Nummerierung im Plan. **Endgültige Belegung per Multimeter abgleichen**
-> (Box-Pins ↔ Plan-Klemmen), bevor etwas angeschlossen wird.
+> Die frühere Behauptung „B2 = Reed/G1" war ein Trace-Fehler (die rote Ader an
+> B2 ist der **+12-V-Abzweig**, nicht das Reed). Die untenstehende Tabelle
+> (pin2=Masse usw.) ist **überholt**. **Endgültige Belegung erst per Multimeter
+> festlegen** (Box-Pins ↔ Plan-Klemmen, Schienen/Knoten beachten), bevor etwas
+> angeschlossen wird.
 
 Eigenbau-Bedienteil: schwarzes Gehäuse mit **3 Kippschaltern + grüner LED**.
 Fotos unter [`images/bedienteil/`](images/bedienteil).
