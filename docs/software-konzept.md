@@ -25,7 +25,7 @@
   Ist-/Soll-Geschwindigkeit, Tempomat aktiv, Bremse erkannt, LED-Status; plus
   Bedienung Resume/ACC/DEC.
 - Konfiguration: Hysterese, Tastimpuls-Timing, Netzwerk (IP/AP), CAN-Parameter,
-  Geschwindigkeitsquelle (Hub vs. lokaler Reed).
+  Geschwindigkeitsquelle = Spartan-Hub (WiFi).
 
 ## On/Off — Erkennung über LED-Signal (ESP läuft immer bei Zündung)
 - **ESP wird von rohem Kl. 15 versorgt** → läuft **immer, wenn die Zündung an ist**
@@ -49,8 +49,8 @@
   Nur die **automatische Zielanfahr-Logik des ESP** braucht einen Geschwindigkeitswert
   → kommt vom Hub. Fällt der Hub/Link aus, entfällt nur die ESP-Automatik, **nicht**
   der Tempomat selbst.
-- **Optionaler lokaler Fallback:** ESP kann den Reed zusätzlich selbst mitlesen
-  (GPIO4), falls man die Zielanfahr-Automatik unabhängig vom Hub haben will.
+- **Kein lokaler Reed:** Die Reed-Geschwindigkeit (vom Rad) kommt **ausschließlich
+  vom Spartan-Hub** (per WiFi). GPIO4 bleibt frei.
 
 ## CAN – gemeinsam mit dem Ökosystem
 Referenz: `niedi74/spartan3v2-can-adapter` (gleicher Bus, gleiche Konventionen).
