@@ -26,8 +26,12 @@
 - **Die Geschwindigkeit kommt primär vom Spartan Hub** (der liest den Reed-Sensor,
   vgl. Spartan-Repo „GPIO27 Speed reed sensor"). Der Tempomat-ESP **konsumiert**
   die Geschwindigkeit → es geht primär ums **Auslesen/Telemetrie**.
-- **Übergang/Interim:** solange CAN noch nicht steht, Tempomat ggf. **per WiFi/ESP-NOW**
-  mit dem Spartan Hub koppeln (ESP-NOW nutzt der Hub eh). Später Umzug auf **CAN**.
+- **Kopplung aktuell: WiFi-only** (kein ESP-NOW — verworfen). Der Tempomat-ESP stellt
+  eine **HTTP/JSON-API** bereit; das **Spartan-Touchdisplay (Cockpit-Frontend)** holt
+  sich darüber Status und kann Kommandos senden. **CAN kommt später** dazu.
+- **Touchdisplay-Tempomat-Page:** zusätzliche Seite im vorhandenen Spartan-Frontend
+  → **primär Status anzeigen**; **Setzen (Resume/ACC/DEC) auch ohne Schalter** möglich
+  (Display-Befehl → ESP feuert die Relais).
 - **Wichtig (Sicherheit):** Die **manuelle VDO-Funktion läuft immer standalone**
   (Halten/Set/Resume macht das VDO-Gerät; Reed geht hardwareseitig direkt ans VDO).
   Nur die **automatische Zielanfahr-Logik des ESP** braucht einen Geschwindigkeitswert
@@ -48,8 +52,8 @@ Referenz: `niedi74/spartan3v2-can-adapter` (gleicher Bus, gleiche Konventionen).
 - [ ] Vollständige **ID-Allokation der 3 Projekte** bestätigen, damit nichts kollidiert.
 
 ## Framework & Ökosystem-Konventionen (vom Spartan übernommen)
-- **PlatformIO + Arduino-ESP32** (gleich wie Spartan; ermöglicht NimBLE/ESP-NOW/Web-GUI).
-- Optional später: **ESP-NOW/BLE-Broadcast** an M5/Waveshare-Cockpit (wie Spartan).
+- **PlatformIO + Arduino-ESP32** (gleich wie Spartan).
+- **Kein ESP-NOW** (verworfen). Cockpit-Anbindung **jetzt per WiFi**, **CAN später**.
 - Web-GUI-Stil analog Spartan halten.
 
 ## Funktionsumfang Firmware (Erstausbau)
@@ -66,4 +70,4 @@ Referenz: `niedi74/spartan3v2-can-adapter` (gleicher Bus, gleiche Konventionen).
 - [ ] Tempomat-CAN-IDs bestätigen (`0x420`/`0x421`?) gegen Gesamt-ID-Map der 3 Projekte.
 - [ ] CAN-Message-Layout Tempomat festlegen (Byte-Belegung Status/Kommando).
 - [ ] WiFi-STA-Logik (Reconnect, Credentials-Handling) — Detail später.
-- [ ] Cockpit-Anbindung: nur CAN, oder auch ESP-NOW/BLE wie Spartan?
+- [ ] HTTP/JSON-API definieren (Status-Felder + Kommandos Resume/ACC/DEC) fürs Touchdisplay.
