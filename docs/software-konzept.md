@@ -15,11 +15,26 @@
 - STA-Anbindung (Verbindung ins vorhandene Netz) — **Detail-Logik später**.
 - Zugang per Browser über die feste IP.
 
-## Webinterface (einfach)
+## Webinterface (einfach) — Stil wie Spartan Hub
+- **Oberfläche/Bedienung am Spartan-Hub orientieren** (gleiche Optik/Struktur),
+  inkl. aller Einstellungen: Devboard-Auswahl, variable Parameter, „unser Kram".
 - Status: Ist-/Soll-Geschwindigkeit, Tempomat aktiv/aus, Bremse erkannt, LED-Status.
-- Konfiguration: Tacho-Impulskonstante (Hz↔km/h), Hysterese, Tastimpuls-Timing,
-  Netzwerk (IP/AP), CAN-Parameter.
-- Bewusst schlank (wenige Seiten), wie beim Spartan Hub.
+- Konfiguration: Hysterese, Tastimpuls-Timing, Netzwerk (IP/AP), CAN-Parameter,
+  Geschwindigkeitsquelle (Hub vs. lokaler Reed).
+
+## Geschwindigkeitsquelle & Integration ins Spartan-Ökosystem
+- **Die Geschwindigkeit kommt primär vom Spartan Hub** (der liest den Reed-Sensor,
+  vgl. Spartan-Repo „GPIO27 Speed reed sensor"). Der Tempomat-ESP **konsumiert**
+  die Geschwindigkeit → es geht primär ums **Auslesen/Telemetrie**.
+- **Übergang/Interim:** solange CAN noch nicht steht, Tempomat ggf. **per WiFi/ESP-NOW**
+  mit dem Spartan Hub koppeln (ESP-NOW nutzt der Hub eh). Später Umzug auf **CAN**.
+- **Wichtig (Sicherheit):** Die **manuelle VDO-Funktion läuft immer standalone**
+  (Halten/Set/Resume macht das VDO-Gerät; Reed geht hardwareseitig direkt ans VDO).
+  Nur die **automatische Zielanfahr-Logik des ESP** braucht einen Geschwindigkeitswert
+  → kommt vom Hub. Fällt der Hub/Link aus, entfällt nur die ESP-Automatik, **nicht**
+  der Tempomat selbst.
+- **Optionaler lokaler Fallback:** ESP kann den Reed zusätzlich selbst mitlesen
+  (GPIO4), falls man die Zielanfahr-Automatik unabhängig vom Hub haben will.
 
 ## CAN – gemeinsam mit dem Ökosystem
 Referenz: `niedi74/spartan3v2-can-adapter` (gleicher Bus, gleiche Konventionen).
