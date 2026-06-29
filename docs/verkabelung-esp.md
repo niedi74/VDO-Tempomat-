@@ -111,3 +111,9 @@ SN65HVD230 VCC=3V3, GND gemeinsam ;  CANH/CANL ──► Fahrzeug-CAN (500 kbit/
 ![ESP-Box Verkabelung](images/verkabelung-esp.png)
 
 > Generiert mit `verkabelung-esp-diagram.py` (matplotlib) – editierbar/regenerierbar.
+
+## Gesamtschaltplan (Bild)
+
+![Gesamtschaltplan](images/verkabelung-gesamt.png)
+
+Komplett: 6 Adern + B1–B6, MOSFETs (RESUME/ACC/DEC ← G5/6/7), Optokoppler (Bremse→G15, LED→G16), Buck-Versorgung (Kl.15→5V), ESP-Pins, CAN (G17/18). Generiert mit `verkabelung-gesamt-diagram.py`.
