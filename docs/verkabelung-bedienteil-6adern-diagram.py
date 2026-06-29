@@ -26,14 +26,14 @@ func={1:"1  Ein/Aus",2:"2  Masse / Common",3:"3  LED",
 
 # Bedienteil + VDO boxes
 rbox(0.5,3.0,1.9,5.1,"Bedienteil\n(6-adrig)",fc="#eef3fa")
-rbox(13.6,3.0,1.9,5.1,"VDO-\nSteuergerät\n(B-Stecker)",fc="#f0f7f0",fs=9)
+rbox(13.9,3.0,1.7,5.1,"VDO-\nSteuergerät",fc="#f0f7f0",fs=9)
 
 # 6 wires straight through, labeled at both connector edges
 for n,y in W.items():
     c = BLU if n==2 else (GRN if n==3 else (GRY if n==1 else BLK))
-    wire([(2.4,y),(13.6,y)],c,2.2)
+    wire([(2.4,y),(13.9,y)],c,2.2)
     lab(2.5,y+0.22,func[n],c=c,fs=9,ha="left",w="bold")
-    lab(13.5,y+0.22,f"B{n}",c=c,fs=8,ha="right")
+    dot(13.9,y,c); lab(13.78,y+0.25,f"B{n}",c=c,fs=10,ha="right",w="bold")
 
 # Masse rail (vertical) tapping wire 2, feeding relay NO sides
 RAILX=11.1
@@ -51,7 +51,10 @@ for n in (4,5,6):
 
     dot(11.1,y,BLU)   # NO -> Masse
 
-lab(10.3,2.75,"Relais schließt → Ader 4/5/6 auf Masse = „gedrückt\"",c=RED,fs=8)
+lab(10.3,2.6,"Relais schließt → Ader 4/5/6 auf Masse = „gedrückt\"",c=RED,fs=8)
+lab(13.0,2.55,"VDO-Klemmen (klemmenliste):",c="#444",fs=8,ha="left",w="bold")
+lab(13.0,2.2,"B4→T6  B5→T8  B6→T4  (Tasten, gesichert)",c="#444",fs=8,ha="left")
+lab(13.0,1.9,"B1/B2/B3 → Versorgung/Masse-Schienen (per Messung)",c="#444",fs=8,ha="left")
 
 # Opto reading LED (wire 3) vs Masse (wire 2)
 rbox(5.6,5.9,1.5,0.6,"Opto",fc="#fff",fs=8)
