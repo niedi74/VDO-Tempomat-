@@ -77,3 +77,9 @@ SN65HVD230 VCC=3V3, GND gemeinsam ;  CANH/CANL ──► Fahrzeug-CAN (500 kbit/
 - Alles parallel → **jederzeit rückrüstbar** (ESP-Box abziehen = Originalzustand).
 ```
 ```
+
+## Schaltplan-Bild
+
+![ESP-Box Verkabelung](images/verkabelung-esp.png)
+
+> Generiert mit `verkabelung-esp-diagram.py` (matplotlib) – editierbar/regenerierbar.
