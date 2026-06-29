@@ -7,13 +7,15 @@
 - Fällt WLAN/CAN/Web aus → Tempomat funktioniert unverändert weiter (Tasten,
   Geschwindigkeit halten, Brems-Reset). Reine „darüberliegende" Schicht.
 
-## WLAN / Netzwerk (Logik wie Spartan Hub)
-- **Dauerhafter AP als Fallback** (immer erreichbar, auch wenn STA verbunden ist
-  → AP+STA-Modus), damit man immer „draufkommt".
-- **Feste/konfigurierbare IP** (nicht dynamisch). Spartan nutzt den Standard
-  **`192.168.4.1`** → Tempomat bewusst anders: **AP-IP `192.168.6.1`** (fix).
-- STA-Anbindung (Verbindung ins vorhandene Netz) — **Detail-Logik später**.
-- Zugang per Browser über die feste IP.
+## WLAN / Netzwerk (Logik wie Spartan Hub) — AP+STA
+- **STA (Client):** Tempomat verbindet sich mit dem **Spartan-Hub-AP** (`192.168.4.1`)
+  → Touchdisplay & Hub erreichen ihn, Geschwindigkeit kommt über dieses Netz.
+- **AP (Fallback, immer an):** eigener AP **`192.168.6.1`** (fix) zum Testen unterwegs,
+  wenn der Hub nicht da ist. (AP+STA gleichzeitig.)
+- **Erreichbarkeit im Hub-Netz:** dort vergibt der Hub die IP (DHCP) → für das Display
+  nicht fix. Lösung: **feste STA-IP** (z. B. `192.168.4.50`) **oder mDNS** (`tempomat.local`).
+- **Boot:** ESP wird mit dem physischen Schalter eingeschaltet, bootet in ~1–2 s;
+  manuelle VDO-Funktion ist sofort da, ESP-Page/Anzeige nach dem Boot.
 
 ## Webinterface (einfach) — Stil wie Spartan Hub
 - **Nur das Devboard-/Setup-Gerüst vom Spartan übernehmen** (Optik/Struktur,
@@ -69,7 +71,10 @@ Referenz: `niedi74/spartan3v2-can-adapter` (gleicher Bus, gleiche Konventionen).
 ## Funktionsumfang Firmware (Erstausbau)
 1. **Eingänge:** Geschwindigkeit (Frequenz, Interrupt), Bremse (Priorität),
    LED-Status, optional physische Taster.
-2. **Ausgänge:** RESUME / ACC / DEC als Tastimpulse (Relais), mit Timing.
+2. **Ausgänge = die einzige aktive ESP-Funktion:** **Set / Resume / Plus / Minus**
+   (Geschwindigkeit). Realisierung über **3 Relais-Kanäle**: Plus = ACC, Minus = DEC,
+   Resume = RESUME; **Set = kurzer ACC-Tipp** (eigene Wire dafür nicht nötig).
+   Tastimpulse mit definiertem Timing.
 3. **Zielanfahr-Logik:** Sollwert per ACC/DEC anfahren, Hysterese, nicht gegen
    den VDO-Regler arbeiten (siehe `architektur.md`).
 4. **Bremssicherheit:** Bremse = sofortiger Abbruch jeder Automatik, Sperrzeit,
