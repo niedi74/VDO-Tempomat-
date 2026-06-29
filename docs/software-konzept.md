@@ -16,11 +16,21 @@
 - Zugang per Browser über die feste IP.
 
 ## Webinterface (einfach) — Stil wie Spartan Hub
-- **Oberfläche/Bedienung am Spartan-Hub orientieren** (gleiche Optik/Struktur),
-  inkl. aller Einstellungen: Devboard-Auswahl, variable Parameter, „unser Kram".
-- Status: Ist-/Soll-Geschwindigkeit, Tempomat aktiv/aus, Bremse erkannt, LED-Status.
+- **Nur das Devboard-/Setup-Gerüst vom Spartan übernehmen** (Optik/Struktur,
+  Board-/Pin-Setup, variable Parameter) — **nicht** die Spartan-spezifischen
+  Felder (Lambda etc.).
+- **„Live"-Seite = die Tempomat-Page** (bewusst einfach gehalten):
+  Ist-/Soll-Geschwindigkeit, Tempomat aktiv, Bremse erkannt, LED-Status; plus
+  Bedienung Resume/ACC/DEC.
 - Konfiguration: Hysterese, Tastimpuls-Timing, Netzwerk (IP/AP), CAN-Parameter,
   Geschwindigkeitsquelle (Hub vs. lokaler Reed).
+
+## On/Off — implizit über den physischen Schalter
+- **Kein Software-On/Off.** Der physische Ein/Aus-Kippschalter **versorgt den ESP
+  erst mit Strom**: Schalter aus → ESP stromlos/aus; Schalter an → ESP bootet,
+  System bereit.
+- Heißt: **ESP läuft = Tempomat-System „an"**. Die GUI muss kein On/Off bieten;
+  „erreichbar" = „an".
 
 ## Geschwindigkeitsquelle & Integration ins Spartan-Ökosystem
 - **Die Geschwindigkeit kommt primär vom Spartan Hub** (der liest den Reed-Sensor,

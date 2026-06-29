@@ -44,9 +44,14 @@ Kabelbaum/Bedienteil ─► [ Terminal-Adapter + ESP32-S3 ] ─► VDO-Steuerger
 | Touch-Display direkt per I²C statt CAN | SDA=GPIO11, SCL=GPIO12 |
 
 ## Stromversorgung
-- **12 V (V3 / Kl.15)** → 12 V→5 V Step-down → **5V-Klemme** des Adapters.
+- **12 V vom EIN/AUS-geschalteten Strang** (hinter dem physischen Kippschalter) →
+  12 V→5 V Step-down → **5V-Klemme** des Adapters.
+  → Dadurch ist der ESP **nur bei „Tempomat an" unter Strom** (Schalter aus = ESP aus).
+  Kein Software-On/Off nötig.
 - **Masse (V2)** → **GND-Klemme** (gemeinsame Masse für ESP + Module + Steuergerät).
 - 3,3 V erzeugt das ESP-Board selbst (für Optokoppler-Logikseite nutzbar).
+- Hinweis: kein Dauerplus → ESP bootet bei jedem Einschalten neu (Config persistent
+  speichern, z. B. NVS/Flash).
 
 ## Wichtige Regeln (aus dem Projekt)
 - **Bremse bleibt hardwareverdrahtet** (VDO-Reset unabhängig vom ESP); ESP liest nur mit.
