@@ -27,12 +27,12 @@
 - Konfiguration: Hysterese, Tastimpuls-Timing, Netzwerk (IP/AP), CAN-Parameter,
   Geschwindigkeitsquelle (Hub vs. lokaler Reed).
 
-## On/Off — implizit über den physischen Schalter
-- **Kein Software-On/Off.** Der physische Ein/Aus-Kippschalter **versorgt den ESP
-  erst mit Strom**: Schalter aus → ESP stromlos/aus; Schalter an → ESP bootet,
-  System bereit.
-- Heißt: **ESP läuft = Tempomat-System „an"**. Die GUI muss kein On/Off bieten;
-  „erreichbar" = „an".
+## On/Off — Erkennung über LED-Signal (ESP läuft immer bei Zündung)
+- **ESP wird von rohem Kl. 15 versorgt** → läuft **immer, wenn die Zündung an ist**
+  (Display/WiFi/Status immer erreichbar, auch wenn der Tempomat gerade aus ist).
+- **Kein Software-On/Off** und **nicht** über den Strom. Der ESP **liest den
+  Tempomat-Zustand am LED-Signal (GPIO16)**: LED an = Tempomat „bereit/an".
+- Die GUI zeigt den Zustand nur an (an/aus = LED), schaltet ihn aber nicht.
 
 ## Geschwindigkeitsquelle & Integration ins Spartan-Ökosystem
 - **Die Geschwindigkeit kommt primär vom Spartan Hub** (der liest den Reed-Sensor,

@@ -32,12 +32,13 @@ Kabelbaum/Bedienteil ─► [ Terminal-Adapter + ESP32-S3 ] ─► VDO-Steuerger
 ## Stromversorgung
 | Klemme | Anschluss |
 |--------|-----------|
-| **5V** | von 12 V→5 V Step-down, **gespeist vom EIN/AUS-geschalteten 12-V-Strang** (hinter dem physischen Kippschalter) |
+| **5V** | von 12 V→5 V Step-down, **gespeist von rohem Kl. 15** (Dauer-Zündungsplus, am Bedienteil) |
 | **GND** | gemeinsame Masse (ESP + Relais/Opto + Step-down + VDO-Steuergerät) |
 | 3V3 | erzeugt das Board selbst (für Optokoppler-Logikseite nutzbar) |
 
-- **On/Off ist implizit:** Schalter aus → ESP stromlos; Schalter an → ESP bootet (~1–2 s).
-  Kein Software-On/Off. **Config persistent in NVS/Flash** (kein Dauerplus).
+- **ESP läuft immer, wenn Zündung an** (Display/WiFi immer erreichbar).
+- **On/Off NICHT über den Strom:** der ESP erkennt „Tempomat an/aus" am **LED-Signal (GPIO16)**.
+- **Config persistent in NVS/Flash** (ESP geht mit Zündung aus).
 
 ## Sichere-GPIO-Hinweise (ESP32-S3)
 - **Vermieden:** GPIO0/3/45/46 (Strapping/Boot), 19/20 (USB), 43/44 (UART0-Konsole),
