@@ -40,6 +40,10 @@ ESP "3V3" (vom Board) ─► optional Logikseite Opto/CAN
   läuft immer, wenn die Zündung an ist** (Display/WiFi immer erreichbar).
 - **On/Off NICHT über den Strom**: der ESP erkennt „Tempomat an/aus" am **LED-Signal (GPIO16)**.
 - **TVS-Diode** (z. B. SMBJ16A) + **Verpolschutz** (Serien-Diode/P-FET) am Eingang empfohlen.
+- ⚠️ **Reglerwahl:** Das vorhandene AMS1117-Board (Aufdruck „Eingang < 12 V") ist **linear**
+  und **nicht für Kl.15 geeignet** (Bordnetz ~14,4 V + Spitzen → Überspannung; zudem Hitze).
+  Nur für **Bench-Test** nutzen. Für den **Festeinbau: echter Schalt-Buck mit weitem Eingang**
+  (z. B. **MP1584EN / LM2596**, 8–40 V → 5 V) direkt von Kl.15.
 
 ## 2) Tasten „drücken" – Relais parallel zu den Tastern
 Jeder Relais-Kontakt **COM/NO** liegt **parallel über den jeweiligen Taster**
@@ -81,6 +85,28 @@ SN65HVD230 VCC=3V3, GND gemeinsam ;  CANH/CANL ──► Fahrzeug-CAN (500 kbit/
 - **Eine gemeinsame Masse** für ESP + alle Module + Step-down + VDO – sonst schaltet nichts.
 - Relais-Variante = galvanisch getrennt (empfohlen). MOSFET-Variante: zusätzlich TVS je Signal.
 - Alles parallel → **jederzeit rückrüstbar** (ESP-Box abziehen = Originalzustand).
+
+## Modul-Zuordnung & Stückzahl (vorhanden: 8 Opto, 10 MOSFET)
+
+**Ausgänge „drücken" → 3 MOSFET-Module** (von 10):
+| MOSFET | schaltet (Drain/OUT) | nach (Source) | Trigger ← ESP |
+|--------|----------------------|---------------|----------------|
+| 1 | Ader 4 = RESUME (B4) | Ader 2 = Masse | GPIO5 |
+| 2 | Ader 5 = ACC/+  (B5) | Ader 2 = Masse | GPIO6 |
+| 3 | Ader 6 = DEC/−  (B6) | Ader 2 = Masse | GPIO7 |
+> MOSFET-Modul: Trigger-Seite VCC/GND/SIG → ESP (3,3 V triggert IRLZ44N). Last-Seite:
+> Signalader an **Drain**, Masse an **Source** (Drain/Source am Modul kurz durchmessen).
+> Gemeinsame Masse Pflicht; pro Signal eine **TVS** empfohlen.
+
+**Eingänge „lesen" → 2–3 Optokoppler** (von 8):
+| Opto | INPUT+ | INPUT− | OUTPUT → ESP |
+|------|--------|--------|--------------|
+| 1 | Bremse (Kl.81, +12 V) | Masse | OUT→GPIO15, VCC→3V3, GND→Masse |
+| 2 | LED „bereit" (Ader 3) | Masse | OUT→GPIO16, VCC→3V3, GND→Masse |
+| 3 *(optional)* | Reed/Speed | Masse | OUT→GPIO4, VCC→3V3, GND→Masse |
+> Active-LOW (Signal an → OUT LOW, in SW invertieren). 12 V-Eingang: R1 prüfen.
+
+**Summe nötig:** 3 MOSFET + 2 Opto (Pflicht) bzw. +1 Opto mit lokalem Reed. Reserve reichlich.
 
 ## Schaltplan-Bild
 
