@@ -45,7 +45,10 @@ ESP "3V3" (vom Board) ─► optional Logikseite Opto/CAN
   Nur für **Bench-Test** nutzen. Für den **Festeinbau: echter Schalt-Buck mit weitem Eingang**
   (z. B. **MP1584EN / LM2596**, 8–40 V → 5 V) direkt von Kl.15.
 
-## 2) Tasten „drücken" – Relais parallel zu den Tastern
+## 2) Tasten „drücken" – parallel zu den Tastern
+> **Gewählt: MOSFET (IRLZ44N), siehe „Modul-Zuordnung" unten.** Relais ist die
+> galvanisch getrennte Alternative (gleiche Logik: Ader 4/5/6 ↔ Masse). Beschreibung unten gilt analog.
+
 Jeder Relais-Kontakt **COM/NO** liegt **parallel über den jeweiligen Taster**
 (Signalader ↔ gemeinsame Taster-Masse). ESP zieht GPIO HIGH → Relais zu → „gedrückt".
 ```
