@@ -120,3 +120,9 @@ SN65HVD230 VCC=3V3, GND gemeinsam ;  CANH/CANL ──► Fahrzeug-CAN (500 kbit/
 ![Gesamtschaltplan](images/verkabelung-gesamt.png)
 
 Komplett: 6 Adern + B1–B6, MOSFETs (RESUME/ACC/DEC ← G5/6/7), Optokoppler (Bremse→G15, LED→G16), Buck-Versorgung (Kl.15→5V), ESP-Pins, CAN (G17/18). Generiert mit `verkabelung-gesamt-diagram.py`.
+
+## Optokoppler-Anschluss (Bild)
+
+![Optokoppler-Anschluss](images/anschluss-optokoppler.png)
+
+Klemme-für-Klemme: INPUT+ = Signal (Bremse/LED), INPUT− = Masse; OUTPUT VCC→3,3V, OUT→GPIO15/16, GND→Masse. Generiert mit `anschluss-optokoppler-diagram.py`.
