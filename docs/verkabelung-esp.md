@@ -95,8 +95,10 @@ SN65HVD230 VCC=3V3, GND gemeinsam ;  CANH/CANL ──► Fahrzeug-CAN (500 kbit/
 | 1 | Ader 4 = RESUME (B4) | Ader 2 = Masse | GPIO5 |
 | 2 | Ader 5 = ACC/+  (B5) | Ader 2 = Masse | GPIO6 |
 | 3 | Ader 6 = DEC/−  (B6) | Ader 2 = Masse | GPIO7 |
-> MOSFET-Modul: Trigger-Seite VCC/GND/SIG → ESP (3,3 V triggert IRLZ44N). Last-Seite:
-> Signalader an **Drain**, Masse an **Source** (Drain/Source am Modul kurz durchmessen).
+> **MOSFET-Modul (Trigger-Switch) – exakte Klemmen:**
+> `VIN+` → +12 V (Kl.15) · `VIN−` → Masse · `OUT−` → **Signalader (Ader 4/5/6)** ·
+> `OUT+` → **frei** · `TRIG/PWM` → ESP-GPIO (5/6/7) · Header-`GND` → Masse.
+> Getriggert → OUT− wird mit VIN− (Masse) verbunden = „gedrückt".
 > Gemeinsame Masse Pflicht; pro Signal eine **TVS** empfohlen.
 
 **Eingänge „lesen" → 2 Optokoppler** (EL817/PC817 12-V, von 5):
@@ -126,3 +128,9 @@ Komplett: 6 Adern + B1–B6, MOSFETs (RESUME/ACC/DEC ← G5/6/7), Optokoppler (B
 ![Optokoppler-Anschluss](images/anschluss-optokoppler.png)
 
 Klemme-für-Klemme: INPUT+ = Signal (Bremse/LED), INPUT− = Masse; OUTPUT VCC→3,3V, OUT→GPIO15/16, GND→Masse. Generiert mit `anschluss-optokoppler-diagram.py`.
+
+## MOSFET-Anschluss (Bild)
+
+![MOSFET-Anschluss](images/anschluss-mosfet.png)
+
+Klemme-für-Klemme (Trigger-Switch): VIN+→+12V, VIN−→Masse, OUT−→Signalader (Ader 4/5/6), OUT+ frei, TRIG/PWM→GPIO5/6/7, GND→Masse. Generiert mit `anschluss-mosfet-diagram.py`.
