@@ -49,8 +49,10 @@
   Nur die **automatische Zielanfahr-Logik des ESP** braucht einen Geschwindigkeitswert
   → kommt vom Hub. Fällt der Hub/Link aus, entfällt nur die ESP-Automatik, **nicht**
   der Tempomat selbst.
-- **Kein lokaler Reed:** Die Reed-Geschwindigkeit (vom Rad) kommt **ausschließlich
-  vom Spartan-Hub** (per WiFi). GPIO4 bleibt frei.
+- **Optionaler lokaler Reed (GPIO4):** Das Reed-Signal (das zur Original-Box geht)
+  kann **hochohmig/read-only mitgehört** werden (Optokoppler → GPIO4, Frequenzmessung)
+  → **Redundanz zum Hub**: Zielanfahr-Automatik läuft dann auch ohne WiFi/Hub.
+  Firmware kann Quelle wählen (lokal bevorzugt, Hub als Fallback o. umgekehrt).
 
 ## CAN – gemeinsam mit dem Ökosystem
 Referenz: `niedi74/spartan3v2-can-adapter` (gleicher Bus, gleiche Konventionen).

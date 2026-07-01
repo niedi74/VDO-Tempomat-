@@ -21,7 +21,7 @@ Kabelbaum/Bedienteil ─► [ Terminal-Adapter + ESP32-S3 ] ─► VDO-Steuerger
 | **7**  | 7  | OUT | **MINUS / DEC** (langsamer) | Relais-Kanal 3 → parallel zum DEC-Kontakt | fest |
 | **15** | 15 | IN  | **Bremssignal** (V1 / Kl.81, +12 V = gebremst) | Optokoppler → 3,3 V; höchste Priorität | fest |
 | **16** | 16 | IN  | **LED „bereit"** mitlesen | Optokoppler vom Bedienteil-LED-Signal | fest |
-| ~~4~~  | 4  | —   | **entfällt** – Geschwindigkeit kommt vom **Spartan-Hub (WiFi)**, kein lokaler Reed | — | frei |
+| **4**  | 4  | IN  | **Geschwindigkeit (Reed)** – lokal mithören (hochohmig, read-only), redundant zum Hub | Optokoppler + Pulszählung (Interrupt) | optional |
 | **17** | 17 | OUT | **CAN TX** | SN65HVD230 TXD | später |
 | **18** | 18 | IN  | **CAN RX** | SN65HVD230 RXD | später |
 | **8**  | 8  | IN  | Taster RESUME mitlesen | parallel zum phys. Taster (für Display-Status) | Reserve |

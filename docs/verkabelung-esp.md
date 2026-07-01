@@ -62,17 +62,20 @@ Relais-Modul: VCC=5V, GND=gemeinsam, IN aktiv-HIGH/-LOW je nach Board (in Firmwa
 
 ## 3) Signale lesen – Optokoppler (EL817/PC817, 1 Kanal, **12-V-Version**)
 Modul-Pinout: **INPUT (+ / −)** = Signalseite · **OUTPUT (VCC / OUT / GND)** = ESP-Seite.
-**Nur 2 Module nötig** (Bremse, LED). Geschwindigkeit kommt vom Spartan-Hub (WiFi).
+**2 Module Pflicht** (Bremse, LED) **+ 1 optional** (lokaler Reed). Teile reichlich vorhanden.
 ```
 OUTPUT-Seite (immer):  VCC→3V3 ,  GND→gemeinsame Masse ,  OUT→ESP-GPIO (interner Pull-up AN)
 INPUT-Seite:
-  Bremse (Kl.81,+12V) → INPUT+ ;  Masse → INPUT−     ;  OUT → GPIO15
-  LED "bereit" (Ader3)→ INPUT+ ;  Masse → INPUT−     ;  OUT → GPIO16   (Polarität prüfen)
+  Bremse (Kl.81,+12V)  → INPUT+ ;  Masse → INPUT−   ;  OUT → GPIO15
+  LED "bereit" (Ader3) → INPUT+ ;  Masse → INPUT−   ;  OUT → GPIO16   (Polarität prüfen)
+  Reed/Speed (G, opt.) → INPUT+ ;  Masse → INPUT−   ;  OUT → GPIO4    (Frequenz, Interrupt)
 ```
 - **Active-LOW:** Signal an → Opto leuchtet → OUT = LOW (in Firmware invertieren).
 - **12-V-Version** → Eingang direkt für 12 V ausgelegt, **kein Zusatzwiderstand nötig**.
 - **Bremse = höchste Priorität:** erkannt → ESP bricht jede Automatik sofort ab (Sperrzeit).
-- **Geschwindigkeit kommt vom Spartan-Hub (WiFi)** – kein lokaler Reed (GPIO4 frei).
+- **Geschwindigkeit:** primär vom **Spartan-Hub (WiFi)**; **optional lokaler Reed an GPIO4**
+  (hochohmig/read-only mitgehört) als Redundanz → Automatik läuft dann auch ohne Hub.
+  PC817 ist schnell genug für die Reed-Frequenz. Pegel/Polarität vorher messen.
 
 ## 4) CAN (später)
 ```
@@ -101,15 +104,16 @@ SN65HVD230 VCC=3V3, GND gemeinsam ;  CANH/CANL ──► Fahrzeug-CAN (500 kbit/
 > Getriggert → OUT− wird mit VIN− (Masse) verbunden = „gedrückt".
 > Gemeinsame Masse Pflicht; pro Signal eine **TVS** empfohlen.
 
-**Eingänge „lesen" → 2 Optokoppler** (EL817/PC817 12-V, von 5):
+**Eingänge „lesen" → 2 Optokoppler Pflicht + 1 optional** (EL817/PC817 12-V, von 5):
 | Opto | INPUT+ | INPUT− | OUTPUT → ESP |
 |------|--------|--------|--------------|
 | 1 | Bremse (Kl.81, +12 V) | Masse | OUT→GPIO15, VCC→3V3, GND→Masse |
 | 2 | LED „bereit" (Ader 3) | Masse | OUT→GPIO16, VCC→3V3, GND→Masse |
+| 3 *(optional)* | Reed/Speed (G, read-only) | Masse | OUT→GPIO4, VCC→3V3, GND→Masse |
 > Active-LOW (Signal an → OUT LOW, in SW invertieren). 12-V-Version → kein Zusatzwiderstand.
-> Geschwindigkeit kommt vom Spartan-Hub (WiFi) → kein lokaler Reed.
+> Reed lokal = Redundanz zum Hub; hochohmig anzapfen (VDO-Signal nicht belasten), Pegel messen.
 
-**Summe nötig:** 3 MOSFET + 2 Optokoppler. Reserve reichlich (10 MOSFET / 5 Opto vorhanden).
+**Summe:** 3 MOSFET + 2 Optokoppler (Pflicht) + 1 Opto (optional Reed). Reserve reichlich (10 MOSFET / 5 Opto).
 
 ## Schaltplan-Bild
 
