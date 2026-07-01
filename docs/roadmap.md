@@ -26,6 +26,17 @@ Eine integrierte Platine statt Modul-Sammlung.
     Bremse (Kl.81), Reed (G), CAN (H/L)
 - Grundlage = diese Doku (Pinbelegung → Netzliste, Modul-Zuordnung → Bauteile).
 
+## Steckverbinder (Deutsch DT) – Box-Interface
+„Rein/raus" über DT-Stecker (automotive, verriegelt, wasserdicht):
+| Stecker | Typ | Belegung |
+|---------|-----|----------|
+| A – Bedienteil IN | DT 6-polig | B1 Ein/Aus · B2 Masse · B3 LED · B4 RESUME · B5 ACC · B6 DEC |
+| B – VDO OUT | DT 6-polig | B1–B6 durchgeschleift |
+| C – Signale/Versorgung | DT 3–4-polig | Bremse (Kl.81) · +12 V (Kl.15) · Masse · (+ Reed wenn 4-pol.) |
+| D – CAN (später) | DT 2-polig | CANH · CANL |
+- Offen: Strom über C oder aus Bedienteil-Stecker? Reed in C (4-pol.) oder eigener DT-2?
+- PCB: DT meist gehäuse-/kabelmontiert → DT in Box-Wand → Pigtails → Schraubklemmen auf PCB.
+
 ## Firmware (parallel, jederzeit)
 - PlatformIO + Arduino-ESP32 (wie Spartan-Hub).
 - Reihenfolge: Standalone-Tempomatlogik → WLAN/AP + Web-GUI → WiFi-Anbindung
