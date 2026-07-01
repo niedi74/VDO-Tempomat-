@@ -31,6 +31,13 @@ Eine integrierte Platine statt Modul-Sammlung.
 - Reihenfolge: Standalone-Tempomatlogik → WLAN/AP + Web-GUI → WiFi-Anbindung
   Touchdisplay → CAN. Details: `software-konzept.md`.
 
+## Bestell-Paket für die Custom-PCB (liefere ich, wenn es soweit ist)
+- **Schaltplan** (Bild + Netzliste): ESP32-S3, Buck, 3× MOSFET, 3× Opto, CAN, Schutz, Klemmen.
+- **BOM mit Bestellnummern** (LCSC für JLCPCB-PCBA; Basic/Extended getrennt).
+- **Netzliste / Pin-für-Pin-Tabelle** (jeder Pin → Netz).
+- **EasyEDA-Anleitung** Schritt für Schritt bis „bestellen" → **PCBA (assembliert, kein Löten)**.
+- Hinweis: fertige Gerber-Dateien entstehen in EasyEDA (führe ich durch), nicht als Direkt-Export.
+
 ## Status
 - Hardware-/Verkabelungs-Planung: **abgeschlossen & dokumentiert.**
 - Nächster aktiver Schritt (wenn es weitergeht): Prototyp verdrahten **oder**
