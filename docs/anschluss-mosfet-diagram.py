@@ -35,7 +35,7 @@ Wr([(mx+mw,yT),(mx+mw+1.0,yT)],GRY,1.6,ls=(0,(4,3))); L(mx+mw+1.1,yT,"frei (nich
 # OUT- -> Signalader
 Wr([(mx+mw,yB),(11.6,yB)],BLK); D(mx+mw,yB,BLK); L(11.7,yB,"→ Signalader (Ader 4/5/6)",c=BLK,fs=10,ha="left",w="bold")
 # TRIG -> GPIO
-Wr([(mx+1.0,my),(mx+1.0,3.0),(3.2,3.0)],ORG); D(mx+1.0,my,ORG); L(3.1,3.0,"ESP GPIO (5/6/7) →",c=ORG,fs=10,ha="right",w="bold")
+Wr([(mx+1.0,my),(mx+1.0,3.0),(3.2,3.0)],ORG); D(mx+1.0,my,ORG); L(3.1,3.0,"ESP GPIO (5/6/7) →",c=ORG,fs=10,ha="right",w="bold"); L(3.1,2.68,"(HIGH = gedrückt)",c=ORG,fs=8,ha="right")
 # GND -> Masse
 Wr([(mx+mw-1.0,my),(mx+mw-1.0,2.5),(11.0,2.5)],BLU); D(mx+mw-1.0,my,BLU); L(11.1,2.5,"Masse (gemeinsam)",c=BLU,fs=10,ha="left",w="bold")
 
@@ -48,5 +48,14 @@ yy=1.15
 for a,b,c in rows:
     L(2.0,yy,a,fs=10,ha="left",w="bold"); L(5.2,yy,b,fs=10,ha="left"); L(9.0,yy,c,c=ORG,fs=10,ha="left"); yy-=0.4
 
-L(13.7,0.15,"■ +12V  ■ Masse  ■ Signal(OUT−)  ┄ GPIO(TRIG)  ┄ frei",fs=8,ha="right",c="#666")
+
+# J1 note box
+from matplotlib.patches import FancyBboxPatch as FBB
+ax.add_patch(FBB((9.4,3.05),4.4,1.85,boxstyle="round,pad=0.03,rounding_size=0.08",fc="#f4f7fb",ec="#88a",lw=1.4,zorder=2))
+L(9.6,4.65,"J1 – 4-Pin-Stiftleiste (Alternative)",c="#334",fs=10,ha="left",w="bold")
+L(9.6,4.3,"= gleiche Signale wie TRIG/PWM + GND",c="#334",fs=9,ha="left")
+L(9.6,4.0,"  (Dupont-tauglich; + ggf. VCC).",c="#334",fs=9,ha="left")
+L(9.6,3.7,"Für uns nötig: nur TRIG (←GPIO) + GND (←Masse).",c="#334",fs=9,ha="left")
+L(9.6,3.35,"Pin-Reihenfolge: Silkscreen / durchmessen.",c="#334",fs=9,ha="left")
+L(8.6,0.12,"■ +12V  ■ Masse  ■ Signal(OUT−)  ┄ GPIO(TRIG)  ┄ frei",fs=8,ha="left",c="#666")
 plt.tight_layout(); plt.savefig("anschluss-mosfet.png",dpi=150,bbox_inches="tight",facecolor="white"); print("ok")
