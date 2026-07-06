@@ -74,9 +74,10 @@ Referenz: `niedi74/spartan3v2-can-adapter` (gleicher Bus, gleiche Konventionen).
 1. **Eingänge:** Geschwindigkeit (Frequenz, Interrupt), Bremse (Priorität),
    LED-Status, optional physische Taster.
 2. **Ausgänge = die einzige aktive ESP-Funktion:** **Set / Resume / Plus / Minus**
-   (Geschwindigkeit). Realisierung über **3 Relais-Kanäle**: Plus = ACC, Minus = DEC,
-   Resume = RESUME; **Set = kurzer ACC-Tipp** (eigene Wire dafür nicht nötig).
-   Tastimpulse mit definiertem Timing.
+   (Geschwindigkeit). Realisierung über **3 MOSFET-Kanäle** (IRLZ44N-Module):
+   Plus = ACC, Minus = DEC, Resume = RESUME; **Set = kurzer ACC-Tipp**.
+   Tastimpulse mit definiertem Timing und **MAX_PULSE_MS-Begrenzung**
+   (Halten ≤ 5–10 s, Tipp ≤ 300 ms) + Task-Watchdog (siehe `review.md` S1).
 3. **Zielanfahr-Logik:** Sollwert per ACC/DEC anfahren, Hysterese, nicht gegen
    den VDO-Regler arbeiten (siehe `architektur.md`).
 4. **Bremssicherheit:** Bremse = sofortiger Abbruch jeder Automatik, Sperrzeit,
@@ -88,3 +89,6 @@ Referenz: `niedi74/spartan3v2-can-adapter` (gleicher Bus, gleiche Konventionen).
 - [ ] CAN-Message-Layout Tempomat festlegen (Byte-Belegung Status/Kommando).
 - [ ] WiFi-STA-Logik (Reconnect, Credentials-Handling) — Detail später.
 - [ ] HTTP/JSON-API definieren (Status-Felder + Kommandos Resume/ACC/DEC) fürs Touchdisplay.
+- [ ] **Aus Review übernommen** (`review.md`): Stale-Data-Guard (Speed-Zeitstempel,
+  > ~500 ms alt → Automatik pausiert) · API-Token/Rate-Limit für `/api/cmd` ·
+  OTA von Anfang an · GUI zeigt „Soll (ESP)" (manuelle Sets sind unsichtbar).

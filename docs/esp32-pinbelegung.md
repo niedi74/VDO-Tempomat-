@@ -6,7 +6,7 @@ zum VDO-Steuergerät. Original-Funktion bleibt parallel erhalten (rückrüstbar)
 
 ```
 Kabelbaum/Bedienteil ─► [ Terminal-Adapter + ESP32-S3 ] ─► VDO-Steuergerät
-                          • 3 Relais parallel zu Tastern (Set/Resume/+/−)
+                          • 3 MOSFET-Module parallel zu Tastern (Set/Resume/+/−)
                           • Optokoppler lesen (Bremse / LED / optional Reed)
                           • WiFi (AP 192.168.6.1 + STA am Spartan-Hub)
                           • CAN-Transceiver (später)
@@ -16,9 +16,9 @@ Kabelbaum/Bedienteil ─► [ Terminal-Adapter + ESP32-S3 ] ─► VDO-Steuerger
 
 | GPIO | Klemme | Richtung | Funktion | Angeschlossen an | Status |
 |------|--------|----------|----------|------------------|--------|
-| **5**  | 5  | OUT | **RESUME** (Reset) | Relais-Kanal 1 → COM/NO parallel zum RESUME-Taster | fest |
-| **6**  | 6  | OUT | **PLUS / ACC** (schneller; Set = kurzer Tipp) | Relais-Kanal 2 → parallel zum ACC-Kontakt | fest |
-| **7**  | 7  | OUT | **MINUS / DEC** (langsamer) | Relais-Kanal 3 → parallel zum DEC-Kontakt | fest |
+| **5**  | 5  | OUT | **RESUME** (Reset) | MOSFET M1 (TRIG) → OUT− parallel zum RESUME-Taster (Ader 4/B4) | fest |
+| **6**  | 6  | OUT | **PLUS / ACC** (schneller; Set = kurzer Tipp) | MOSFET M2 (TRIG) → OUT− parallel zum ACC-Kontakt (Ader 5/B5) | fest |
+| **7**  | 7  | OUT | **MINUS / DEC** (langsamer) | MOSFET M3 (TRIG) → OUT− parallel zum DEC-Kontakt (Ader 6/B6) | fest |
 | **15** | 15 | IN  | **Bremssignal** (V1 / Kl.81, +12 V = gebremst) | Optokoppler → 3,3 V; höchste Priorität | fest |
 | **16** | 16 | IN  | **LED „bereit"** mitlesen | Optokoppler vom Bedienteil-LED-Signal | fest |
 | **4**  | 4  | IN  | **Geschwindigkeit (Reed)** – lokal mithören (hochohmig, read-only), redundant zum Hub | Optokoppler + Pulszählung (Interrupt) | optional |
@@ -48,7 +48,9 @@ Kabelbaum/Bedienteil ─► [ Terminal-Adapter + ESP32-S3 ] ─► VDO-Steuerger
 ## Wichtige Regeln
 - **Bremse bleibt hardwareverdrahtet** (VDO-Reset unabhängig vom ESP); ESP liest nur mit.
 - ESP **niemals** Set/Resume/Plus senden, solange Bremssignal aktiv/gerade war (Sperrzeit).
-- **Relais-Variante** = galvanisch getrennt (empfohlen). Bei MOSFET-Variante: gemeinsame Masse + TVS pro Signalleitung.
+- **Gewählt: MOSFET-Module** (gemeinsame Masse Pflicht, TVS pro Signalleitung empfohlen,
+  **Pull-down an jeder TRIG-Leitung** → „ESP tot = losgelassen"). Relais bleibt die
+  galvanisch getrennte Alternative.
 - Original-Bedienteil bleibt voll funktionsfähig (ESP nur parallel).
 
 ## Bezug zu anderen Docs
