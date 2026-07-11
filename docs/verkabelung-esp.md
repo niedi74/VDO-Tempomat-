@@ -74,8 +74,20 @@ INPUT-Seite:
 - **12-V-Version** → Eingang direkt für 12 V ausgelegt, **kein Zusatzwiderstand nötig**.
 - **Bremse = höchste Priorität:** erkannt → ESP bricht jede Automatik sofort ab (Sperrzeit).
 - **Geschwindigkeit:** primär vom **Spartan-Hub (WiFi)**; **optional lokaler Reed an GPIO4**
-  (hochohmig/read-only mitgehört) als Redundanz → Automatik läuft dann auch ohne Hub.
-  PC817 ist schnell genug für die Reed-Frequenz. Pegel/Polarität vorher messen.
+  (read-only mitgehört) als Redundanz → Automatik läuft dann auch ohne Hub.
+  PC817 ist schnell genug für die Reed-Frequenz.
+
+### Reed-Doppelnutzung (VDO + ESP) – 3 Wege (siehe auch `review.md` E1)
+Der Reed ist nur ein Kontakt; die Spannung kommt aus dem **VDO-Pull-up** (G1; G2 = Masse).
+Ein 12-V-Opto (~1 kΩ Eingang) kann den Pegel einbrechen lassen → 65-Hz-Erkennung tot.
+- **A) Test zuerst:** Opto testweise parallel (IN+→G1, IN−→G2). G1-Pegel bei offenem
+  Reed > ~8 V? Tempomat noch ab ~30 km/h setzbar? → ok, fertig.
+- **B) Hochohmig:** größerer Serienwiderstand vor dem Opto **oder** ohne Opto:
+  G1 → 100 kΩ → GPIO4 (+ 3,3-V-Klemmung); Last ~0,1 mA, für VDO unsichtbar
+  (gemeinsame Masse besteht ohnehin).
+- **C) Rückwirkungsfrei: zweiter Reed** (WEDER WG04) neben dem ersten an denselben
+  Magneten, nur für den ESP → elektrisch komplett getrennt, null Risiko.
+Empfehlung: A testen → falls Pegel einbricht, C.
 
 ## 4) CAN (später)
 ```
