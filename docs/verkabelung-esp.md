@@ -90,7 +90,16 @@ Ein 12-V-Opto (~1 kΩ Eingang) kann den Pegel einbrechen lassen → 65-Hz-Erkenn
   Kontermuttern → einfache Montage am Blechwinkel, Abstand einstellbar).
   **Anschluss dann OHNE Opto:** `GPIO4 (interner Pull-up) ── Reed ── GND` —
   kein 12 V im Spiel, nur SW-Entprellung. Elektrisch komplett getrennt vom VDO.
-Empfehlung: A testen → falls Pegel einbricht, C (59140 direkt an GPIO4).
+Empfehlung: A testen → falls Pegel einbricht, C (Reed direkt an GPIO4).
+
+**Bestellt: MC-38 Tür-/Fensterkontakt** als 2. Reed (Plan C):
+- Anschluss: `GPIO4 (interner Pull-up) ── MC-38 ── GND`, kein Opto, SW-Entprellung.
+- ⚠️ **Mitgelieferten Magnetblock NICHT an die Welle** (Fliehkraft/Unwucht) —
+  nur den Reed-Block nutzen, mit den vorhandenen VDO-Kit-Magneten.
+- Schaltabstand mit Kit-Magnet auf Werkbank testen (~5–10 mm statt Tür-25 mm).
+- Kabelaustritt versiegeln (Spritzwasser), vibrationsfest montieren.
+- Lebensdauer bei ~8000 Imp/km unbekannt (Billigteil) → als Verschleißteil
+  betrachten, Ersatz bevorraten; Langzeit-Alternative: 59140 / Hall.
 
 ## 4) CAN (später)
 ```
