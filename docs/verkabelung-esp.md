@@ -85,9 +85,12 @@ Ein 12-V-Opto (~1 kΩ Eingang) kann den Pegel einbrechen lassen → 65-Hz-Erkenn
 - **B) Hochohmig:** größerer Serienwiderstand vor dem Opto **oder** ohne Opto:
   G1 → 100 kΩ → GPIO4 (+ 3,3-V-Klemmung); Last ~0,1 mA, für VDO unsichtbar
   (gemeinsame Masse besteht ohnehin).
-- **C) Rückwirkungsfrei: zweiter Reed** (WEDER WG04) neben dem ersten an denselben
-  Magneten, nur für den ESP → elektrisch komplett getrennt, null Risiko.
-Empfehlung: A testen → falls Pegel einbricht, C.
+- **C) Rückwirkungsfrei: zweiter Reed nur für den ESP** an denselben Magneten
+  (z. B. **Littelfuse/Hamlin 59140-Serie**, 1 NO, 10 W, Gewindezylinder mit
+  Kontermuttern → einfache Montage am Blechwinkel, Abstand einstellbar).
+  **Anschluss dann OHNE Opto:** `GPIO4 (interner Pull-up) ── Reed ── GND` —
+  kein 12 V im Spiel, nur SW-Entprellung. Elektrisch komplett getrennt vom VDO.
+Empfehlung: A testen → falls Pegel einbricht, C (59140 direkt an GPIO4).
 
 ## 4) CAN (später)
 ```
