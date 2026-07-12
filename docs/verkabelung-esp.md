@@ -28,6 +28,41 @@ Bedienteil-Adern (Set/Resume/+/−): `bedienteil-verdrahtung.md`.
 > **Wired-OR-Prinzip:** Alle Original-Adern laufen **unverändert** zum VDO weiter.
 > Die ESP-Box **zapft nur parallel an** – Original bleibt voll funktionsfähig.
 
+## 0) Kabine ↔ Unterboden: Cat5e als Kabelbaum
+
+Für die Strecke Kabine → Unterboden (VDO-Steuergerät + Unterdruckpumpe) wird ein
+**Cat5e-Patchkabel** (4 Twisted Pairs = 8 Adern) als Sammel-Kabelbaum genutzt,
+statt Einzeladern zu verlegen. Twisted Pair ist hier von Vorteil: jedes Signal
+bekommt seine **eigene Rückleitung** (statt gemeinsamer Fahrzeugmasse) →
+weniger Einstreuung, besonders relevant für den schwachen Reed-Impuls.
+
+| Paar | Nutzung |
+|------|---------|
+| 1 | Bremslicht-Signal (Signal + eigene Rückleitung), Strom vernachlässigbar |
+| 2 + 3 (verdoppelt) | **12 V Plus** (2 Adern parallel) / **Masse** (2 Adern parallel) — Hauptversorgung VDO-Steuergerät + Unterdruckpumpe |
+| 4 | Impuls-Signal (Geber/Reed) zurück zum ESP |
+
+**Strombudget bestätigt:** komplettes Tempomat-Setup (Steuergerät + Unterdruckpumpe)
+zieht bei Last **~450 mA** — passt bequem unter die im VDO-Plan ohnehin vorgesehene
+**2-A-Sicherung** (`V3 / Kl.15 / Si 2A`). Spannungsabfall auf 24-AWG-Adern (~0,0842 Ω/m):
+
+| Länge (einfache Strecke) | verdoppelt (2 Adern/Pol) | einfach (1 Ader/Pol) |
+|---|---|---|
+| 3 m | ~0,11 V | ~0,23 V |
+| 5 m | ~0,19 V | ~0,38 V |
+| 10 m | ~0,38 V | ~0,76 V |
+
+Auch bei 10 m einfacher Führung nur ~6 % Abfall — unkritisch. Verdoppeln (Paare
+2+3) gibt zusätzliche Sicherheitsmarge und ist der empfohlene Weg.
+
+**Wichtig für die Kfz-Umgebung:**
+- **Stranded/Litze-Patchkabel verwenden, kein Solid-Core-Verlegekabel** — massive
+  Adern brechen unter Fahrzeugvibration auf Dauer.
+- Kein Öl-/UV-/Temperaturschutz wie echte Kfz-Leitung → an Durchführungen und
+  Scheuerstellen zusätzlich schützen (Wellrohr/Schrumpfschlauch).
+- Passt zur DT-Stecker-Planung (`roadmap.md`): Adern einfach abisolieren und in
+  DT-Pins crimpen, kein RJ45 nötig.
+
 ## 1) Stromversorgung
 ```
 Kl.15 +12V (am Bedienteil) ──[Sicherung 2 A]──[TVS 15–18V ↯GND]──► Step-down  IN+
