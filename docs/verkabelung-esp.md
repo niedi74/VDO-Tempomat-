@@ -30,6 +30,11 @@ Bedienteil-Adern (Set/Resume/+/−): `bedienteil-verdrahtung.md`.
 
 ## 0) Kabine ↔ Unterboden: Cat5e als Kabelbaum
 
+> ⚠️ **Nur für den Test-/Prototyp-Aufbau** (Test während des Urlaubs). Für den
+> dauerhaften Einbau später **echte Kfz-Leitung** verwenden (öl-/UV-/temperatur-
+> beständig, Litze) — siehe Warnhinweis unten. Cat5e ist eine schnelle,
+> günstige Übergangslösung, keine Endlösung.
+
 Für die Strecke Kabine → Unterboden (VDO-Steuergerät + Unterdruckpumpe) wird ein
 **Cat5e-Patchkabel** (4 Twisted Pairs = 8 Adern) als Sammel-Kabelbaum genutzt,
 statt Einzeladern zu verlegen. Twisted Pair ist hier von Vorteil: jedes Signal
