@@ -55,10 +55,11 @@ zieht bei Last **~450 mA** — passt bequem unter die im VDO-Plan ohnehin vorges
 |---|---|---|
 | 3 m | ~0,11 V | ~0,23 V |
 | 5 m | ~0,19 V | ~0,38 V |
-| 10 m | ~0,38 V | ~0,76 V |
+| **6 m (realistisches Maximum im Fahrzeug)** | **~0,23 V** | **~0,46 V** |
 
-Auch bei 10 m einfacher Führung nur ~6 % Abfall — unkritisch. Verdoppeln (Paare
-2+3) gibt zusätzliche Sicherheitsmarge und ist der empfohlene Weg.
+Fahrzeuglänge begrenzt die Strecke ohnehin auf **max. ~6 m** — selbst einfach
+geführt nur ~4 % Abfall, verdoppelt ~2 %. Unkritisch in jeder Variante;
+Verdoppeln (Paare 2+3) bleibt trotzdem der empfohlene Weg (Marge, Redundanz).
 
 **Wichtig für die Kfz-Umgebung:**
 - **Stranded/Litze-Patchkabel verwenden, kein Solid-Core-Verlegekabel** — massive
