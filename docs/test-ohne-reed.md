@@ -13,12 +13,13 @@ elektronisch simuliert.
   → 1000/60 × 4 = 66,7 Hz (knapp über Schwelle).
 
 ## Reed-Simulator (elektronisch, kein Drehen nötig)
-Ein freier MOSFET-Kanal (von 10 vorhandenen, aktuell 3 belegt) ersetzt den Reed:
+**Fertige Firmware:** `firmware/reed-simulator/` (eigenständiger, zweiter ESP32
++ 1 MOSFET-Modul, separat von der Tempomat-Box). Serial-Befehle `f<Hz>`,
+`v<km/h>`, `stop`, `sweep`, `status` — siehe README dort.
 ```
-VIN+ → +12 V (Kl.15)
-VIN− → Masse
-OUT− → G1 (VDO-Geschwindigkeitseingang, statt echtem Reed-Kontakt)
-TRIG ← freier ESP-GPIO, per PWM/Rechteck angesteuert (z. B. ledcWriteTone)
+MOSFET VIN+ → +12 V (Kl.15)      MOSFET OUT− → G1 (VDO-Geschwindigkeitseingang,
+MOSFET VIN− → Masse                            statt echtem Reed-Kontakt)
+MOSFET TRIG ← ESP32 GPIO25 (Reed-Simulator-Sketch)
 ```
 Elektrisch identisch zu einem schließenden Reed-Kontakt — VDO kann nicht
 unterscheiden. Testfrequenz z. B. **100 Hz** (≈ 45 km/h simuliert).
@@ -34,15 +35,17 @@ Set/Resume zieht die Unterdruckpumpe am Gaszug, **auch im Stand**:
 ## Testablauf
 1. Reed-Simulator-Kanal wie oben verkabeln (an G1/G2, nicht an die
    Bedienteil-Adern).
-2. ESP-Firmware: Testmodus mit einstellbarer Simulationsfrequenz (z. B. 0,
-   50, 65, 100, 150 Hz) über Web-GUI oder festen Testwert im Code.
+2. `firmware/reed-simulator/reed-simulator.ino` auf den zweiten ESP32 flashen,
+   Serial Monitor öffnen (115200 Baud). Startet mit 0 Hz (sicher).
 3. Zündung an, Tempomat-Kippschalter an → LED „bereit"?
-4. Simulationsfrequenz auf ≥65 Hz stellen.
+4. Serial-Befehl `v45` (≈45 km/h, weit über 65-Hz-Schwelle) → Frequenz auf
+   ≥65 Hz stellen.
 5. RESUME/ACC/DEC-Kanäle einzeln testen (Set, Halten, Loslassen) — reagiert
    der VDO wie erwartet?
 6. Bremstest: Bremssignal aktivieren → Tempomat muss sofort deaktivieren.
-7. Danach: Simulationsfrequenz auf 0 (kein Signal) → Set darf nicht mehr
-   funktionieren (Plausibilitätscheck).
+7. Danach: `stop` (0 Hz) → Set darf nicht mehr funktionieren (Plausibilitätscheck).
+8. Optional: `sweep` für eine Rampe 0→100 km/h über 20 s (Hysterese-Verhalten
+   beobachten).
 
 ## Danach
 Reed-Simulator-Kanal wieder abklemmen bzw. per Firmware-Flag deaktivieren,
