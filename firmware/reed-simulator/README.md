@@ -10,14 +10,18 @@ getestet werden kann. Details/Sicherheitshinweise: `../../docs/test-ohne-reed.md
 MOSFET-Modul VIN+  ── +12 V (Kl.15)
 MOSFET-Modul VIN−  ── Masse
 MOSFET-Modul OUT−  ── G1 (VDO-Geschwindigkeitseingang, statt Reed)
-MOSFET-Modul TRIG  ── ESP32 GPIO25 (PIN_OUT im Sketch)
+MOSFET-Modul TRIG  ── ESP32 GPIO8 (PIN_OUT im Sketch)
 ESP32 GND          ── gemeinsame Masse mit MOSFET-Modul + VDO
 ```
 
 ## Flashen
-- Arduino IDE, Board: „ESP32 Dev Module" (bzw. passend zum vorhandenen Board).
+- Board: **ESP32-S3** (Xtensa LX7) — Arduino IDE: Werkzeuge → Board →
+  **„ESP32S3 Dev Module"**. arduino-cli FQBN: `esp32:esp32:esp32s3`.
 - Keine zusätzlichen Libraries nötig — nur ESP32-Board-Package installiert.
 - `reed-simulator.ino` hochladen, Serial Monitor auf **115200 Baud**.
+- Falls Serial Monitor stumm bleibt: **„USB CDC On Boot"** im Tools-Menü
+  umschalten (Enabled/Disabled), je nachdem ob das Board natives USB oder
+  einen UART-Brückenchip nutzt.
 
 ## Bedienung (Serial Monitor)
 | Befehl | Wirkung |

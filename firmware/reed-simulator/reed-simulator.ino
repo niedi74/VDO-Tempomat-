@@ -1,7 +1,8 @@
 /*
   Reed-Signal-Simulator fuer VDO-Tempomat-Test
   ---------------------------------------------
-  Separates ESP32-Devboard + 1x MOSFET-Modul (IRLZ44N-Typ, wie im Hauptprojekt).
+  Board: ESP32-S3 (Xtensa LX7). Separates Devboard + 1x MOSFET-Modul
+  (IRLZ44N-Typ, wie im Hauptprojekt).
   Erzeugt ein Rechtecksignal, das das MOSFET-Modul auf G1 (VDO-
   Geschwindigkeitseingang) schaltet -- elektrisch identisch zu einem
   schliessenden Reed-Kontakt. Siehe docs/test-ohne-reed.md im Hauptrepo.
@@ -27,7 +28,8 @@
 #include <Arduino.h>
 
 // ---- Konfiguration ----
-const int PIN_OUT = 25;              // GPIO an MOSFET-TRIG (bei Bedarf anpassen)
+const int PIN_OUT = 8;               // GPIO an MOSFET-TRIG (ESP32-S3: sicherer Pin,
+                                      // NICHT 26-37 nutzen -> Octal-PSRAM/Flash)
 const double IMP_PER_KM = 8000.0;    // Kalibrierung: 4 Magnete x ~2000 U/km Kardanwelle
 const double MIN_HZ_VDO = 65.0;      // VDO-Mindestfrequenz zum Setzen der Geschwindigkeit
 
