@@ -12,17 +12,19 @@
   → Touchdisplay & Hub erreichen ihn, Geschwindigkeit kommt über dieses Netz.
 - **AP (Fallback, immer an):** eigener AP **`192.168.6.1`** (fix) zum Testen unterwegs,
   wenn der Hub nicht da ist. (AP+STA gleichzeitig.)
-- **Subnetz-Zuordnung im Mini-Ökosystem** (damit sich beim gleichzeitigen Testen
-  mehrerer Geräte keine AP-IPs überschneiden — alle vier Geräte können in
-  einem realen Test gleichzeitig eingeschaltet sein!):
+- **Subnetz-Zuordnung im Mini-Ökosystem:**
   | Gerät | AP-IP | Repo |
   |---|---|---|
   | Spartan-Hub (Live) | `192.168.4.x` | `spartan3v2-can-adapter` |
   | Spartan-Hub (Test/Emu) | `192.168.5.x` | `spartan3-emu123` |
-  | **Tempomat-ESP-Box (dieses Projekt, fix)** | **`192.168.6.1`** | `VDO-Tempomat-` |
-  | Reed-Simulator (separates Testtool) | `192.168.7.1` | `VDO-Tempomat-/firmware/reed-simulator` |
-  > ⚠️ `192.168.6.1` ist durch die Tempomat-ESP-Box selbst belegt — für JEDES
-  > weitere Gerät in diesem Projekt (auch Testtools) `7.x` oder höher nutzen.
+  | Tempomat-ESP-Box (dieses Projekt, fix) | `192.168.6.1` | `VDO-Tempomat-` |
+  | Reed-Simulator (separates Testtool) | `192.168.6.1` | `VDO-Tempomat-/firmware/reed-simulator` |
+  > **Bewusste Entscheidung:** Reed-Simulator nutzt ebenfalls `192.168.6.1`
+  > (gleiche Range wie die Tempomat-ESP-Box). Beide Geräte werden in der
+  > Praxis nicht gleichzeitig als AP betrieben, daher kein reales Kollisions-
+  > risiko im Feld — nur beim gleichzeitigen AP-Betrieb beider Geräte relevant
+  > (dann jeweils nur eine der beiden SSIDs verbinden, IP ist dann eindeutig
+  > je nach gewähltem Netz).
 - **Erreichbarkeit im Hub-Netz:** dort vergibt der Hub die IP (DHCP) → für das Display
   nicht fix. Lösung: **feste STA-IP** (z. B. `192.168.4.50`) **oder mDNS** (`tempomat.local`).
 - **Boot:** ESP wird mit dem physischen Schalter eingeschaltet, bootet in ~1–2 s;
