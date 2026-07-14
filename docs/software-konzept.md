@@ -13,12 +13,16 @@
 - **AP (Fallback, immer an):** eigener AP **`192.168.6.1`** (fix) zum Testen unterwegs,
   wenn der Hub nicht da ist. (AP+STA gleichzeitig.)
 - **Subnetz-Zuordnung im Mini-Ökosystem** (damit sich beim gleichzeitigen Testen
-  mehrerer Geräte keine AP-IPs überschneiden):
-  | Gerät | AP-IP |
-  |---|---|
-  | Spartan-Hub | `192.168.4.1` |
-  | Tempomat-ESP-Box (dieses Projekt) | `192.168.6.1` |
-  | Reed-Simulator (`firmware/reed-simulator/`, separates Testtool) | `192.168.7.1` |
+  mehrerer Geräte keine AP-IPs überschneiden — alle vier Geräte können in
+  einem realen Test gleichzeitig eingeschaltet sein!):
+  | Gerät | AP-IP | Repo |
+  |---|---|---|
+  | Spartan-Hub (Live) | `192.168.4.x` | `spartan3v2-can-adapter` |
+  | Spartan-Hub (Test/Emu) | `192.168.5.x` | `spartan3-emu123` |
+  | **Tempomat-ESP-Box (dieses Projekt, fix)** | **`192.168.6.1`** | `VDO-Tempomat-` |
+  | Reed-Simulator (separates Testtool) | `192.168.7.1` | `VDO-Tempomat-/firmware/reed-simulator` |
+  > ⚠️ `192.168.6.1` ist durch die Tempomat-ESP-Box selbst belegt — für JEDES
+  > weitere Gerät in diesem Projekt (auch Testtools) `7.x` oder höher nutzen.
 - **Erreichbarkeit im Hub-Netz:** dort vergibt der Hub die IP (DHCP) → für das Display
   nicht fix. Lösung: **feste STA-IP** (z. B. `192.168.4.50`) **oder mDNS** (`tempomat.local`).
 - **Boot:** ESP wird mit dem physischen Schalter eingeschaltet, bootet in ~1–2 s;
