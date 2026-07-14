@@ -12,6 +12,13 @@
   → Touchdisplay & Hub erreichen ihn, Geschwindigkeit kommt über dieses Netz.
 - **AP (Fallback, immer an):** eigener AP **`192.168.6.1`** (fix) zum Testen unterwegs,
   wenn der Hub nicht da ist. (AP+STA gleichzeitig.)
+- **Subnetz-Zuordnung im Mini-Ökosystem** (damit sich beim gleichzeitigen Testen
+  mehrerer Geräte keine AP-IPs überschneiden):
+  | Gerät | AP-IP |
+  |---|---|
+  | Spartan-Hub | `192.168.4.1` |
+  | Tempomat-ESP-Box (dieses Projekt) | `192.168.6.1` |
+  | Reed-Simulator (`firmware/reed-simulator/`, separates Testtool) | `192.168.7.1` |
 - **Erreichbarkeit im Hub-Netz:** dort vergibt der Hub die IP (DHCP) → für das Display
   nicht fix. Lösung: **feste STA-IP** (z. B. `192.168.4.50`) **oder mDNS** (`tempomat.local`).
 - **Boot:** ESP wird mit dem physischen Schalter eingeschaltet, bootet in ~1–2 s;
