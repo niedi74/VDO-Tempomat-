@@ -30,6 +30,9 @@
 // ---- Konfiguration ----
 const int PIN_OUT = 8;               // GPIO an MOSFET-TRIG (ESP32-S3: sicherer Pin,
                                       // NICHT 26-37 nutzen -> Octal-PSRAM/Flash)
+                                      // [S3-FIX] war zuvor 25 -- existiert auf ESP32-S3
+                                      // nicht (nur klassischer ESP32), Ausgang blieb
+                                      // stumm ohne offensichtlichen Fehler im Serial-Log.
 const double IMP_PER_KM = 8000.0;    // Kalibrierung: 4 Magnete x ~2000 U/km Kardanwelle
 const double MIN_HZ_VDO = 65.0;      // VDO-Mindestfrequenz zum Setzen der Geschwindigkeit
 

@@ -22,6 +22,11 @@ ESP32 GND          ── gemeinsame Masse mit MOSFET-Modul + VDO
 - Falls Serial Monitor stumm bleibt: **„USB CDC On Boot"** im Tools-Menü
   umschalten (Enabled/Disabled), je nachdem ob das Board natives USB oder
   einen UART-Brückenchip nutzt.
+- Erscheint im Boot-Log `[E] ... Invalid pin: X` / `is not set as GPIO` →
+  der konfigurierte `PIN_OUT` existiert auf diesem Chip nicht (z. B. GPIO25
+  gibt es nur auf dem klassischen ESP32, nicht auf S3). Sketch läuft dann
+  scheinbar normal weiter, der MOSFET-Ausgang schaltet aber **nie** — Pin
+  gegen die aktuelle Board-Pinbelegung prüfen.
 
 ## Bedienung (Serial Monitor)
 | Befehl | Wirkung |
@@ -34,6 +39,16 @@ ESP32 GND          ── gemeinsame Masse mit MOSFET-Modul + VDO
 
 Kalibrierung `IMP_PER_KM = 8000.0` im Sketch entspricht 4 Magneten an der
 Kardanwelle (~2000 U/km). Bei Bedarf anpassen. VDO-Schwelle: **65 Hz**.
+
+## Falls später WiFi dazukommt (aktuell nicht vorhanden)
+Aus dem Nachbarprojekt `spartan3v2-can-adapter` (gleiche Board-Familie,
+ESP32-S3-DevKitC-Klone) sind zwei Stolpersteine bereits gelöst — als Vorlage,
+falls der Reed-Simulator später Netzwerkfunktionen bekommt:
+- **Nicht-eindeutige Werks-MAC bei billigen S3-Klon-Chips** → manuelle
+  MAC-Override via `esp_wifi_set_mac()`. Referenz: `spartan3v2-can-adapter/
+  src/main.cpp`, Marker `WIFI-MAC-OVR`.
+- **Statische IP je WLAN-Profil** (sonst wechselt IP bei jedem Boot) →
+  `applyStaticIpIfNeeded()` in `spartan3v2-can-adapter/src/main.cpp`.
 
 ## ⚠️ Sicherheit
 Startet immer mit 0 Hz. Vor dem Testen: Handbremse an, Leerlauf/Parkstellung,
